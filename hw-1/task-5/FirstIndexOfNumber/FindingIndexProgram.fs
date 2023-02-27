@@ -1,11 +1,11 @@
 ﻿// Finds first index of given element in given list
 let indexOf element list = 
     let rec find element list index = 
-        if list = [] then -1
-        else
-            if List.head list = element then index
-            else
-                find element list.Tail (index + 1)
+        match list with
+        | [] -> -1
+        | head :: tail -> 
+            if head = element then index
+            else find element tail (index + 1)
     find element list 0
 
 
