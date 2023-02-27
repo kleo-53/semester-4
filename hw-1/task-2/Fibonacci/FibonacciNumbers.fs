@@ -12,27 +12,30 @@ let eMatrix () =
 
 // Fast exponentiation of the matrix
 let rec binPow result matrix n = 
-    if n = 0 then result
-    else if n % 2 = 1 then
+    match n with
+    | 0 -> result
+    | n when n % 2 = 1 ->
         let result = multiply result matrix
         let matrix = multiply matrix matrix
         binPow result matrix ((n - 1) / 2)
-    else
+    | n when n % 2 = 0 ->
         let matrix = multiply matrix matrix
         binPow result matrix (n / 2)
 
 // Calculates Fibonacci number by given number n
 let fib n =
-    if n < 0 then -1
-    else if n = 0 then 0
-    else
+    match n with 
+    | n when n < 0 -> -1
+    | 0 -> 0
+    | n ->
         let result = binPow (eMatrix ()) (matrix ()) n
         match result with
         | [[a1, a2], [b1, b2]] -> b1
 
 let n = System.Console.ReadLine() |> int
 let result = fib n
-if result = -1 then printfn "Such Fibonacci number does not exist"
-else if result = 0 then printfn "The Fibonacci number 0 is 0"
-else printfn $"The Fibonacci number {n} is {fib n}"
+match result with 
+    | -1 -> printfn "Such Fibonacci number does not exist"
+    | 0 -> printfn "The Fibonacci number 0 is 0"
+    | res -> printfn $"The Fibonacci number {n} is {res}"
    
