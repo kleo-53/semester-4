@@ -1,10 +1,11 @@
 ﻿// Reverse list function
 let reverse list = 
     let rec reverseList givenList resultList =
-        if givenList = [] then resultList 
-        else
-            let resultList = givenList.Head :: resultList
-            reverseList givenList.Tail resultList
+        match givenList with
+        | [] -> resultList 
+        | head :: tail ->
+            let resultList = head :: resultList
+            reverseList tail resultList
     reverseList list []
     
 printf "Enter elements of the list in one line: "
