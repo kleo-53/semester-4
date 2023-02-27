@@ -10,11 +10,13 @@ let reverse list =
     
 // Creates list with numbers [2^n; .. 2^(n + m)] by given n, m
 let degreeSeries n m = 
-    if (n < 0 || m < 0) then []
-    else
+    match (n, m) with 
+    | (n, m) when n < 0 || m < 0 -> []
+    | (n, m) ->
         let rec degrees list k = 
-            if k = 0 then list
-            else
+            match k with
+            | 0 -> list
+            | k ->
                 let newHead = (List.head list) * 2.0
                 degrees (newHead :: list) (k - 1)
         let descResult = degrees [2.0 ** n] m
@@ -25,7 +27,8 @@ let n = System.Console.ReadLine() |> int
 printf "Enter m: "
 let m = System.Console.ReadLine() |> int
 let result = degreeSeries n m
-if result = [] then printf "Incorrect numbers"
-else 
-    printf "Reversed list is: "
-    result |> Seq.iter (printf "%A ")
+match result with
+    | [] -> printf "Incorrect numbers"
+    | result ->
+        printf "Reversed list is: "
+        result |> Seq.iter (printf "%A ")
