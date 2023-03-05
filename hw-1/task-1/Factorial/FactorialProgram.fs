@@ -1,9 +1,12 @@
 ﻿// Counting factorial by number
-let rec factorial number =
-    match number with
-    | n when n < 0 -> -1
-    | 1 | 0 -> 1
-    | number -> number * factorial (number - 1)
+let factorial number = 
+    if number < 0 then -1
+    else
+        let rec factorialRecursive number result =
+            match number with
+            | 0 | 1 -> result
+            | number -> factorialRecursive (number - 1) (number * result)
+        factorialRecursive number 1
 
 printf "Enter number to count factorial: "
 let number = System.Console.ReadLine() |> int
