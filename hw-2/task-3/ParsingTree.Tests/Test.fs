@@ -8,10 +8,8 @@ open ParseTree
 let zeroTree = Tree.Tree(Operation.Division, Tree.Tip(132), Tree.Tip(0))
 
 [<Test>]
-let TestOnesAndEvens() =
-    let expected = "∞"
-    let actual = Calculate zeroTree
-    Assert.That(actual.ToString(), Is.EqualTo(expected))
+let DividingByZeroTest() =
+     Assert.Throws<System.DivideByZeroException>(fun () -> Calculate zeroTree |> ignore) |> ignore
     
 let addTree = Tree.Tree(Operation.Addition, Tree.Tip(3), Tree.Tip(5))
 let subTree = Tree.Tree(Operation.Subtraction, Tree.Tip(-4), Tree.Tip(10))
