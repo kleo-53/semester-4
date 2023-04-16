@@ -4,8 +4,6 @@ open Microsoft.FSharp.Collections
 // Type of the phonebook
 type PhoneBookType(book: Map<string, string>) = 
     // path to file where to save records
-    let path = Path.Combine(Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "../../..")), "Phonebook.txt")
-    
     // Adds record to the phonebook
     member _.AddRecord name (phone: string) =
         if Map.containsKey name book then
@@ -41,7 +39,7 @@ type PhoneBookType(book: Map<string, string>) =
         book |>  Map.iter (fun n p -> printfn $"Name: {n}, phone(s): {p}")
 
     // Saves records to the file
-    member _.SaveToFile =
+    member _.SaveToFile path =
         printfn $"{path}"
         use streamWriter = File.CreateText(path)
         for np in book do
@@ -50,7 +48,7 @@ type PhoneBookType(book: Map<string, string>) =
         streamWriter.Close
 
     // Fill current phonebook with records from file 
-    member _.ReadFromFile =
+    member _.ReadFromFile path =
         if (not (File.Exists(path))) then Map.empty
         else
             use streamReader = File.OpenText(path)
@@ -61,14 +59,14 @@ type PhoneBookType(book: Map<string, string>) =
                     let name = splitLine[0].Split "Name: "
                     loop (newPhoneBook.Add(name[1], splitLine[1])) (streamReader.ReadLine())
             let res = loop (Map.empty) (streamReader.ReadLine())
-            streamReader.Close
+            streamReader.Close |> ignore
             res
     
 
 [<EntryPoint>]
 let main _ =
-
-    let phonebook = PhoneBookType(Map [("32", "324")])
+    let phonebook = PhoneBookType(Map [])
+    let path = Path.Combine(Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "../../..")), "Phonebook.txt")
     let rec loop (phonebook: PhoneBookType) =
         printfn "Select command:"
         printfn "0 - Quit"
@@ -123,11 +121,11 @@ let main _ =
             loop phonebook
 
         | "5" -> 
-            phonebook.SaveToFile
+            phonebook.SaveToFile path |> ignore
             loop phonebook
 
         | "6" ->
-            loop (PhoneBookType(phonebook.ReadFromFile))
+            loop (PhoneBookType(phonebook.ReadFromFile path))
 
         | _ -> 
             printfn "Invalid command!"

@@ -1,0 +1,3 @@
+Name: Anya, phone(s): 1234567
+Name: Kate, phone(s): 2233441
+Name: Tolik, phone(s): 1234567, 212120
