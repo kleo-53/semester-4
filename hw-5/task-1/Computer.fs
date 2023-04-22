@@ -29,7 +29,7 @@ type Computer(index: int, os: OperationSystem, hasVirus: bool) =
             HasVirus <- true
 
     member _.OS = os
-    member _.Print = $"%A{os}: %b{HasVirus}"
+    member _.Print = $"%A{os}: %b{HasVirus} "
     member _.TryInfect = tryInfect()
     member _.IsInfected = HasVirus
     member _.Index = index
@@ -40,11 +40,12 @@ type Computer(index: int, os: OperationSystem, hasVirus: bool) =
     let infect (baseComp: Computer) = 
         if baseComp.IsInfected then
             connection.[baseComp.Index] |> List.map (fun i -> computers[i].TryInfect) |> ignore
+
     member _.DoStep () = computers |> List.map (fun comp -> infect comp) |> ignore
     member _.IsFinished () = 
-        if ((computers |> List.filter (fun comp -> comp.IsInfected = false)) = list.Empty) then true
-        else false
+        (computers |> List.filter (fun comp -> comp.IsInfected = false)) = list.Empty
     member _.PrintState () = 
-        computers |> List.iter (fun comp -> printf $"{comp.Print} ")
+        computers |> List.iter (fun comp -> printf $"{comp.Print}")
         printf "\n"
+    member _.Computers = computers
             
