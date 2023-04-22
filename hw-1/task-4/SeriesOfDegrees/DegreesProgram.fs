@@ -16,9 +16,12 @@ let degreeSeries n m =
         let rec degrees list k = 
             match k with
             | 0 -> list
-            | k ->
-                let newHead = (List.head list) * 2.0
-                degrees (newHead :: list) (k - 1)
+            | k -> 
+                match list with
+                | head::tail ->
+                    let newHead = head * 2.0
+                    degrees (newHead :: list) (k - 1)
+                | [] -> []
         let descResult = degrees [2.0 ** n] m
         reverse descResult
 
