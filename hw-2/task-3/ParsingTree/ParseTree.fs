@@ -19,8 +19,5 @@ let rec Calculate tree =
         | Addition -> Calculate leftTree + Calculate rightTree
         | Subtraction -> Calculate leftTree - Calculate rightTree
         | Multiplication -> Calculate leftTree * Calculate rightTree
-        | Division ->
-            try Calculate leftTree / Calculate rightTree 
-            with
-            | :? System.DivideByZeroException -> raise (System.Exception("Can not divide by zero!"))
+        | Division -> Calculate leftTree / Calculate rightTree 
     | Tip value -> value
