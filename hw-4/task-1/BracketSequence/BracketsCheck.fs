@@ -1,9 +1,5 @@
-﻿// Matches a paired bracket
-let PairToBracket bracket =
-    match bracket with 
-    | ')' -> '('
-    | ']' -> '['
-    | '}' -> '{'
+﻿let closingBrackets() = Map [ (')', '('); (']', '['); ('}', '{') ]
+let openingBrackets() = Set ( seq {'('; '['; '{' } )
 
 // Checks if brackets sequence is correct
 let Check (sequence : string) =
@@ -15,14 +11,16 @@ let Check (sequence : string) =
             | [] -> true
             | head :: tail -> false
         else 
-        match sequence[i] with
-        | '(' | '[' | '{' -> loop (i + 1) (sequence[i] :: stack) continueLooping
-        | ')' | ']' | '}' ->
-            match stack with
-            | [] -> loop (i + 1) stack false
-            | head :: tail ->
-                match head with
-                | bracket when (PairToBracket sequence[i]) = bracket -> loop (i + 1) tail continueLooping
-                | _ -> loop (i + 1) tail false
-        | _ -> loop (i + 1) stack continueLooping
+            let character = sequence[i]
+            if (openingBrackets() |> Set.contains character) then
+                loop (i + 1) (sequence[i] :: stack) continueLooping
+            elif (closingBrackets() |> Map.containsKey character) then
+                match stack with
+                | [] -> loop (i + 1) stack false
+                | head :: tail -> 
+                     match head with
+                     | bracket when (closingBrackets() |> Map.find character) = bracket -> loop (i + 1) tail continueLooping
+                     | _ -> loop (i + 1) tail false
+            else
+                loop (i + 1) stack continueLooping 
     loop 0 stack true
