@@ -13,11 +13,10 @@ module Crawler =
 
     // Gets list og links and sizes by given link
     let Crawler (link: string) =
+        let client = new HttpClient()
         async {
             try
-                use client = new HttpClient()
-
-                // Returns response bogy of page by link
+                // Returns link and size of response bogy by link
                 let connectAsync (link: string) =
                     async {
                         try
@@ -29,8 +28,10 @@ module Crawler =
 
                 let tasks page = 
                     (findLinks page) |> Seq.map (fun (link : string) -> (connectAsync link))
+                
+                let! mainPage = (client.GetStringAsync link) |> Async.AwaitTask
 
-                return Some ((tasks link) |> Async.Parallel)
+                return Some ((tasks mainPage) |> Async.Parallel)
             with 
                 | _ -> return None
         }
