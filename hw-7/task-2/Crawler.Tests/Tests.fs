@@ -11,7 +11,13 @@ let CorrectLinksAndSizesFromSeSite () =
         ("https://oops.math.spbu.ru/SE/alumni", 49175)
         ("https://oops.math.spbu.ru/SE/alumni", 49175)
     ]
-    Crawler.Crawler givenLink |> should equal correctList
+    Crawler.Crawler givenLink 
+    |> (Async.RunSynchronously) 
+    |> Option.get 
+    |> (Async.RunSynchronously) 
+    |> Seq.map (fun i -> i.Value) 
+    |> Seq.toList 
+    |> should equal correctList
 
 [<Test>]
 let CorrectLinksAndSizesFromMicrosoft () =
@@ -19,4 +25,10 @@ let CorrectLinksAndSizesFromMicrosoft () =
     let correctList = [
          ("https://learn.microsoft.com/en-us/lifecycle/faq/internet-explorer-microsoft-edge", 63160)
     ]
-    Crawler.Crawler givenLink |> should equal correctList
+    Crawler.Crawler givenLink 
+    |> (Async.RunSynchronously) 
+    |> Option.get 
+    |> (Async.RunSynchronously) 
+    |> Seq.map (fun i -> i.Value) 
+    |> Seq.toList 
+    |> should equal correctList
