@@ -1,0 +1,22 @@
+\documentclass{article}
+\usepackage{graphicx}
+
+\begin{document}
+
+\begin{center}
+
+\section*{Task}
+{\Large$((\lambda a.(\lambda b.b\ b)\ (\lambda b.b\ b))\ b)\ ((\lambda c.(c\ b))\ (\lambda a.a))$ to normal form}\\
+
+
+\section*{Solution}
+    
+{\Large$((\lambda a.(\lambda b.b\ b)\ (\lambda b.b\ b))\ b)\ ((\lambda c.(c\ b))\ (\lambda a.a))$\\
+$\rightarrow_\beta\ ((\lambda b.b\ b)\ (\lambda b.b\ b))\ ((\lambda c.(c\ b))\ (\lambda a.a))$\\
+$\equiv \Omega \ ((\lambda c.(c\ b))\ (\lambda a.a))$\\
+$\rightarrow_\beta\Omega\ ((\lambda a.a)\ b)$\\
+$\equiv \Omega\ (I\ b)$\\
+$\equiv \Omega\ b$}
+
+\end{center}
+\end{document}

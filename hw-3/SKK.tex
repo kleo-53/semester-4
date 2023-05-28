@@ -1,0 +1,21 @@
+\documentclass{article}
+\usepackage{graphicx}
+\begin{document}
+
+\begin{center}
+
+\section*{Task}
+{\Large$S\ K\ K = I$ proof}\\
+
+\section*{Solution}
+    
+{\Large$(\lambda x.\lambda y.\lambda z.(x\ z)\ (y\ z)) (\lambda x.\lambda y.x)\ (\lambda x.\lambda y.x)$\\
+$\rightarrow_\beta\ (\lambda y.\lambda z.((\lambda x.\lambda y.x)\ z)\ (y\ z)) (\lambda x.\lambda y.x)$\\
+$\rightarrow_\beta\ (\lambda z.((\lambda x.\lambda y.x)\ z))\ ((\lambda x.\lambda y.x)\ z)$\\
+$\rightarrow_\beta\ (\lambda z.((\lambda x.\lambda y.x)\ z))\ z)$\\
+$\rightarrow_\beta\ (\lambda z.z)$\\
+$\equiv I$}
+
+\end{center}
+
+\end{document}
