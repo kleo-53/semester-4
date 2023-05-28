@@ -1,6 +1,10 @@
 ﻿open System.IO
 open Microsoft.FSharp.Collections
 
+type SearchType = 
+    | Phone
+    | Name
+
 // Type of the phonebook
 type PhoneBookType(book: Map<string, string>) = 
     // path to file where to save records
@@ -21,14 +25,14 @@ type PhoneBookType(book: Map<string, string>) =
             Map.add name phone book
 
     // Finds name by given phone or phone by given name
-    member _.Find lineType (line: string) = 
+    member _.Find (lineType: SearchType) (line: string) = 
         match lineType with
-        | "phone" ->
+        | Phone ->
             if (book |> Map.exists (fun n (p: string) -> p.Contains line)) then
                 book |> Map.filter(fun n (p: string) -> p.Contains line)
             else
                 Map.empty
-        | "name" ->
+        | Name ->
             if (book |> Map.exists (fun n p -> n = line)) then
                 book |> Map.filter (fun n p -> line = n) |> Map.map (fun n p -> p)
             else
@@ -94,7 +98,7 @@ let main _ =
         | "2" ->
             printfn "Enter name: "
             let name = System.Console.ReadLine()
-            let tempBook = phonebook.Find "name" name
+            let tempBook = phonebook.Find Name name
             if (tempBook.IsEmpty) then
                 printfn "Person with this name does not exist"
             else
@@ -104,7 +108,7 @@ let main _ =
         | "3" ->
             printfn "Enter phone: "
             let phone = System.Console.ReadLine()
-            let tempBook = phonebook.Find "phone" phone
+            let tempBook = phonebook.Find Phone phone
             if (tempBook.IsEmpty) then
                 printfn "Person with this phone does not exist"
             else

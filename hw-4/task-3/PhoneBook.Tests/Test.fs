@@ -23,18 +23,23 @@ type Tests () =
 
     [<Test>]
     member _.``Finds all phones by name correctly`` () =
-        (bookFull.Find "name" "Kate") |> should equal (Map.empty.Add("Kate", "2233441"))
-        (bookFull.Find "name" "Tolik") |> should equal (Map.empty.Add("Tolik", "1234567, 212120"))
-        (bookFull.Find "name" "Aboba").IsEmpty |> should equal true
+        (bookFull.Find Name "Kate") |> should equal (Map.empty.Add("Kate", "2233441"))
+        (bookFull.Find Name "Tolik") |> should equal (Map.empty.Add("Tolik", "1234567, 212120"))
+        (bookFull.Find Name "Aboba").IsEmpty |> should equal true
 
     [<Test>]
     member _.``Finds all names by phone correctly`` () =
-        (bookFull.Find "phone" "2233441") |> should equal (Map.empty.Add("Kate", "2233441"))
-        (bookFull.Find "phone" "1234567") |> should equal (Map.empty.Add("Anya", "1234567").Add("Tolik", "1234567, 212120"))
-        (bookFull.Find "phone" "987").IsEmpty |> should equal true
+        (bookFull.Find Phone "2233441") |> should equal (Map.empty.Add("Kate", "2233441"))
+        (bookFull.Find Phone "1234567") |> should equal (Map.empty.Add("Anya", "1234567").Add("Tolik", "1234567, 212120"))
+        (bookFull.Find Phone "987").IsEmpty |> should equal true
 
     [<Test>]
     member _.``Saves and reads from file correctly`` () =
         let path = Path.Combine(Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "../../..")), "TestRecords.txt")
         bookFull.SaveToFile path |> ignore
         bookFull.ReadFromFile path |> should equal records
+
+    [<Test>]
+    member _.``Add many phones to one name`` () =
+        (book2.AddRecord "Anya" "1112331") |> should equal (Map.empty.Add("Anya", "1234567, 1112331"))
+
